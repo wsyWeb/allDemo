@@ -1,48 +1,84 @@
 <template>
-    <a-layout-sider
-        id="layout-menu "
-        breakpoint="lg"
-        collapsed-width="0"
-        @collapse="onCollapse"
-        @breakpoint="onBreakpoint"
-        @click="onClick"
-    >
+    <a-layout-sider id="layout-menu " breakpoint="lg" collapsed-width="0">
         <div class="logo" />
         <a-menu
             theme="dark"
             mode="inline"
-            :default-selected-keys="['0']"
+            :default-selected-keys="selectedKeys"
             class="menu"
+            :inline-collapsed="collapsed"
+            v-model:openKeys="openKeys"
+            v-model:selectedKeys="selectedKeys"
+            @click="onClick"
         >
-            <a-menu-item key="echart">
-                <a-icon type="user" />
-                <span class="nav-text">绘制图标多轴</span>
-            </a-menu-item>
-            <a-menu-item key="2">
-                <a-icon type="video-camera" />
-                <span class="nav-text">nav 2</span>
-            </a-menu-item>
-            <a-menu-item key="3">
-                <a-icon type="upload" />
-                <span class="nav-text">nav 3</span>
-            </a-menu-item>
-            <a-menu-item key="4">
-                <a-icon type="user" />
-                <span class="nav-text">nav 4</span>
-            </a-menu-item>
+            <template v-for="item in routes[0].children" :key="item.id">
+                <a-menu-item v-if="!item.children || item.children.length === 0" :key="item.id">
+                    <template #icon>
+                        <PieChartOutlined />
+                    </template>
+                    <span class="nav-text">{{ item.label }}</span>
+                </a-menu-item>
+                <a-sub-menu v-else-if="item.children && item.children.length > 0">
+                    <template #icon>
+                        <MailOutlined />
+                    </template>
+                    <template #title>{{ item.label }}</template>
+                    <a-menu-item v-for="innerItem in item.children" :key="innerItem.id">
+                        {{ innerItem.label }}
+                    </a-menu-item>
+                </a-sub-menu>
+            </template>
         </a-menu>
     </a-layout-sider>
 </template>
 <script>
-export default {
+import { routes, oneLevelRoutes } from '../router/routes'
+import { defineComponent, reactive, toRefs, watch } from 'vue'
+import { PieChartOutlined, MailOutlined } from '@ant-design/icons-vue'
+export default defineComponent({
+    setup() {
+        const state = reactive({
+            collapsed: false,
+            routes,
+            selectedKeys: ['1'],
+            openKeys: ['sub1'],
+            preOpenKeys: ['sub1'],
+        })
+
+        watch(
+            () => state.openKeys,
+            (val, oldVal) => {
+                state.preOpenKeys = oldVal
+            }
+        )
+        const toggleCollapsed = () => {
+            state.collapsed = !state.collapsed
+            state.openKeys = state.collapsed ? [] : state.preOpenKeys
+        }
+
+        return {
+            ...toRefs(state),
+            toggleCollapsed,
+        }
+    },
+    components: {
+        PieChartOutlined,
+        MailOutlined,
+    },
     methods: {
-        onCollapse() {},
-        onBreakpoint() {},
         onClick(obj) {
-            console.log(obj.key);
+            let selectedKeys = [obj.key]
+            this.$store.commit('SET_SELECTED_KEYS', selectedKeys)
+            // 选中菜单后跳转
+            oneLevelRoutes.forEach((item) => {
+                if (selectedKeys.indexOf(item.id) !== -1 && window.location.pathname !== item.fullPath) {
+                    console.log('qqqq')
+                    this.$router.replace(item.fullPath)
+                }
+            })
         },
     },
-};
+})
 </script>
 
 <style>
