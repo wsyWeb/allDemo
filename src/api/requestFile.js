@@ -1,7 +1,7 @@
 import axios from 'axios'
 import store from '../store'
 // import {deleteNullKey} from "../utils/commonUtil";
-import { baseUrl } from '../env'
+import { baseUrl } from '../config/env'
 import { errorCode } from '@/common/errorCode'
 import router from '@/router'
 // import qs from "qs";

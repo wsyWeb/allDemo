@@ -8,6 +8,7 @@ export default createStore({
         requestPendingNum: 0,
         loading: false,
         selectedKeys: [],
+        openKeys: [],
         user: {
             name: 'wsy',
             password: '888888',
@@ -24,6 +25,9 @@ export default createStore({
         },
         SET_SELECTED_KEYS: function(state, selectedKeys) {
             state.selectedKeys = selectedKeys
+        },
+        SET_OPEN_KEYS: function(state, openKeys) {
+            state.openKeys = openKeys
         },
     },
     actions: {},

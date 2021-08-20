@@ -11,19 +11,51 @@
                 {{ item.message }}
             </li>
         </ul>
-        <a-button type="primary" @click="clickArrBtn">Primary Button</a-button>
+        <a-button type="primary" @click="clickArrBtn($event, 'hahaha')">Primary Button</a-button>
+        <div>--- 事件修饰符 ---</div>
+        <a-input @keyup.delete="onkeyup" v-model="myObject.title" />
+
+        <a-button @click.ctrl.exact="onCtrlClick">点击事件修饰符</a-button>
+        <div>--- v-model ---</div>
+        <div>
+            <input type="checkbox" id="jack" value="Jack" v-model="checkedNames" />
+            <label for="jack">Jack</label>
+            <input type="checkbox" id="john" value="John" v-model="checkedNames" />
+            <label for="john">John</label>
+            <input type="checkbox" id="mike" value="Mike" v-model="checkedNames" />
+            <label for="mike">Mike</label>
+            <br />
+            <span>Checked names: {{ checkedNames }}</span>
+        </div>
+        <div>--- 自定义组件实例 ---</div>
+        <div id="blog-post-demo" class="demo">
+            {{ items }}
+            <blog-post
+                v-for="item of items"
+                :key="item"
+                v-model="item.message"
+                @add-item="items.push({ message: '' })"
+                @update:value="item.message = $event"
+            ></blog-post>
+        </div>
+        <header></header>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { apiTestApi } from '../api/modules/dashboard'
+import { apiTestApi } from 'api/modules/dashboard'
+import BlogPost from 'components/test/child1'
 
 export default {
     name: 'Home',
+    components: {
+        BlogPost,
+    },
     data() {
         return {
+            checkedNames: [],
             isActive: true,
             hasError: false,
             items: [{ message: 'Foo' }, { message: 'Bar' }],
@@ -39,9 +71,15 @@ export default {
         // HelloWorld
     },
     methods: {
-        clickArrBtn() {
-            this.items.splice(1, 0, { message: 'new' })
-            console.log(this.items, 'this')
+        clickArrBtn(event, msg) {
+            alert(event)
+            alert(msg)
+        },
+        onCtrlClick() {
+            alert('onCtrlClick')
+        },
+        onkeyup() {
+            alert('onkeyup')
         },
     },
 }

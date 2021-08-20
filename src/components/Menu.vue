@@ -4,12 +4,12 @@
         <a-menu
             theme="dark"
             mode="inline"
-            :default-selected-keys="selectedKeys"
             class="menu"
             :inline-collapsed="collapsed"
             v-model:openKeys="openKeys"
             v-model:selectedKeys="selectedKeys"
             @click="onClick"
+            @openChange="onOpenChange"
         >
             <template v-for="item in routes[0].children" :key="item.id">
                 <a-menu-item v-if="!item.children || item.children.length === 0" :key="item.id">
@@ -18,7 +18,7 @@
                     </template>
                     <span class="nav-text">{{ item.label }}</span>
                 </a-menu-item>
-                <a-sub-menu v-else-if="item.children && item.children.length > 0">
+                <a-sub-menu v-else-if="item.children && item.children.length > 0" :key="item.id">
                     <template #icon>
                         <MailOutlined />
                     </template>
@@ -66,11 +66,10 @@ export default {
     data() {
         return {
             routes,
+            rootSubmenuKeys: [...routes[0].children.map((item) => item.id)],
         }
     },
-    created() {
-        console.log(this.$store.state.selectedKeys, 'collapsed')
-    },
+    created() {},
     computed: {
         ...mapState({
             collapsed: (state) => state.collapsed,
@@ -94,6 +93,16 @@ export default {
                     this.$router.replace(item.fullPath)
                 }
             })
+        },
+        onOpenChange(openKeys) {
+            const latestOpenKey = openKeys.find((key) => this.openKeys.indexOf(key) === -1)
+            let keys = []
+            if (this.rootSubmenuKeys.indexOf(latestOpenKey) === -1) {
+                keys = openKeys
+            } else {
+                keys = latestOpenKey ? [latestOpenKey] : []
+            }
+            this.$store.commit('SET_OPEN_KEYS', keys)
         },
     },
 }

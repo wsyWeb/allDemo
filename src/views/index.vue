@@ -1,12 +1,10 @@
 <template>
     <div class="container main-box">
-        <Header/>
-
+        <Header />
         <div class="flex" style="height: 100%;">
-            <Menu/>
+            <Menu />
             <div class="flex-1" style="overflow: auto;">
                 <a-spin :spinning="loading">
-                    <!-- <BreadcrumbLayout/> -->
                     <div id="platform" class="p-sm platform" style="padding-top: 40px;height: 100%;">
                         <router-view></router-view>
                     </div>
@@ -19,16 +17,20 @@
 <script>
 import Menu from '../components/Menu'
 import Header from '../components/Header'
+import { mapState } from 'vuex'
 // import zh_CN from 'ant-design-vue/lib/locale-provider/zh_CN';
 export default {
-    components: {Menu, Header},
+    components: { Menu, Header },
     data() {
-        return{
+        return {
             // zh_CN,
-            loading: false
         }
-        
-    }
+    },
+    computed: {
+        ...mapState({
+            loading: (state) => state.loading,
+        }),
+    },
 }
 </script>
 <style lang="less">

@@ -18,18 +18,6 @@ module.exports = {
         },
     },
 
-    configureWebpack: {
-        resolve: {
-            alias: {
-                '@': path.resolve(__dirname, 'src'),
-                src: resolve('src'),
-                common: resolve('src/common'),
-                components: resolve('src/components'),
-                views: resolve('src/views'),
-                api: path.resolve(__dirname, 'api'),
-            },
-        },
-    },
     // css: {
     //     loaderOptions: {
     //         // 给 sass-loader 传递选项
@@ -60,6 +48,16 @@ module.exports = {
                 })
             )
         }
+        Object.assign(config.resolve, {
+            alias: {
+                '@': path.resolve(__dirname, './src'),
+                assets: path.resolve(__dirname, './src/assets'),
+                common: path.resolve(__dirname, './src/common'),
+                components: path.resolve(__dirname, './src/components'),
+                api: path.resolve(__dirname, './src/api'),
+                views: path.resolve(__dirname, './src/views'),
+            },
+        })
     },
     chainWebpack(config) {
         config.plugins.delete('preload')

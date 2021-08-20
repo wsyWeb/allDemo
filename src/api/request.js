@@ -1,6 +1,6 @@
 import axios from 'axios'
 import store from '../store'
-import { baseUrl } from '../env'
+import { baseUrl } from '../config/env'
 import { errorCode } from './errorCode'
 import { notification } from 'ant-design-vue'
 // import router from '../router'
@@ -15,7 +15,6 @@ let instance = axios.create({
 
 instance.interceptors.request.use(
     (config) => {
-        console.log(config)
         config.headers.common['token'] = store.state.token
         return config
     },
