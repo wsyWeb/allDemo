@@ -33,33 +33,51 @@
 </template>
 <script>
 import { routes, oneLevelRoutes } from '../router/routes'
-import { defineComponent, reactive, toRefs, watch } from 'vue'
+import { mapState } from 'vuex'
+// import { defineComponent, reactive, toRefs, watch } from 'vue'
 import { PieChartOutlined, MailOutlined } from '@ant-design/icons-vue'
-export default defineComponent({
-    setup() {
-        const state = reactive({
-            collapsed: false,
-            routes,
-            selectedKeys: ['1'],
-            openKeys: ['sub1'],
-            preOpenKeys: ['sub1'],
-        })
+// export default defineComponent({
+//     setup() {
+//         const state = reactive({
+//             collapsed: false,
+//             routes,
+//             selectedKeys: ['1'],
+//             openKeys: ['sub1'],
+//             preOpenKeys: ['sub1'],
+//         })
 
-        watch(
-            () => state.openKeys,
-            (val, oldVal) => {
-                state.preOpenKeys = oldVal
-            }
-        )
-        const toggleCollapsed = () => {
-            state.collapsed = !state.collapsed
-            state.openKeys = state.collapsed ? [] : state.preOpenKeys
-        }
+//         watch(
+//             () => state.openKeys,
+//             (val, oldVal) => {
+//                 state.preOpenKeys = oldVal
+//             }
+//         )
+//         const toggleCollapsed = () => {
+//             state.collapsed = !state.collapsed
+//             state.openKeys = state.collapsed ? [] : state.preOpenKeys
+//         }
 
+//         return {
+//             ...toRefs(state),
+//             toggleCollapsed,
+//         }
+//     },
+export default {
+    data() {
         return {
-            ...toRefs(state),
-            toggleCollapsed,
+            routes,
         }
+    },
+    created() {
+        console.log(this.$store.state.selectedKeys, 'collapsed')
+    },
+    computed: {
+        ...mapState({
+            collapsed: (state) => state.collapsed,
+            openKeys: (state) => state.openKeys,
+            selectedKeys: (state) => state.selectedKeys,
+            breadcrumbs: (state) => state.breadcrumbStore.breadcrumbs,
+        }),
     },
     components: {
         PieChartOutlined,
@@ -78,7 +96,7 @@ export default defineComponent({
             })
         },
     },
-})
+}
 </script>
 
 <style>

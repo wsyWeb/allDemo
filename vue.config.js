@@ -1,13 +1,13 @@
-const path = require("path");
+const path = require('path')
 
-const UglifyJsPlugin = require("uglifyjs-webpack-plugin");
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
 
 function resolve(dir) {
-    return path.join(__dirname, dir);
+    return path.join(__dirname, dir)
 }
 
 module.exports = {
-    publicPath: "/",
+    publicPath: '/',
     productionSourceMap: false,
     devServer: {
         port: 4000,
@@ -21,11 +21,12 @@ module.exports = {
     configureWebpack: {
         resolve: {
             alias: {
-                "@": resolve("src"),
-                src: resolve("src"),
-                common: resolve("src/common"),
-                components: resolve("src/components"),
-                views: resolve("src/views"),
+                '@': path.resolve(__dirname, 'src'),
+                src: resolve('src'),
+                common: resolve('src/common'),
+                components: resolve('src/components'),
+                views: resolve('src/views'),
+                api: path.resolve(__dirname, 'api'),
             },
         },
     },
@@ -38,9 +39,9 @@ module.exports = {
     //     },
     // },
     configureWebpack: (config) => {
-        const myConfig = {};
-        if (process.env.NODE_ENV === "production") {
-            myConfig.plugins = [];
+        const myConfig = {}
+        if (process.env.NODE_ENV === 'production') {
+            myConfig.plugins = []
             // 去掉注释
             // 去掉注释
             myConfig.plugins.push(
@@ -53,32 +54,32 @@ module.exports = {
                             warnings: false,
                             drop_console: true,
                             drop_debugger: false,
-                            pure_funcs: ["console.log"], //移除console
+                            pure_funcs: ['console.log'], //移除console
                         },
                     },
                 })
-            );
+            )
         }
     },
     chainWebpack(config) {
-        config.plugins.delete("preload");
-        config.plugins.delete("prefetch");
+        config.plugins.delete('preload')
+        config.plugins.delete('prefetch')
 
         config.module
-            .rule("svg")
-            .exclude.add(resolve("src/icons"))
-            .end();
-        config.module
-            .rule("icons")
-            .test(/\.svg$/)
-            .include.add(resolve("src/icons"))
+            .rule('svg')
+            .exclude.add(resolve('src/icons'))
             .end()
-            .use("svg-sprite-loader")
-            .loader("svg-sprite-loader")
+        config.module
+            .rule('icons')
+            .test(/\.svg$/)
+            .include.add(resolve('src/icons'))
+            .end()
+            .use('svg-sprite-loader')
+            .loader('svg-sprite-loader')
             .options({
-                symbolId: "icon-[name]",
+                symbolId: 'icon-[name]',
             })
-            .end();
+            .end()
 
         // config.module
         //     .rule("vue")
@@ -89,28 +90,26 @@ module.exports = {
         //         return options;
         //     })
         //     .end();
-        config.when(process.env.NODE_ENV === "development", (config) =>
-            config.devtool("cheap-source-map")
-        );
+        config.when(process.env.NODE_ENV === 'development', (config) => config.devtool('cheap-source-map'))
 
-        config.when(process.env.NODE_ENV !== "development", (config) => {
+        config.when(process.env.NODE_ENV !== 'development', (config) => {
             config
-                .plugin("ScriptExtHtmlWebpackPlugin")
-                .after("html")
-                .use("script-ext-html-webpack-plugin", [
+                .plugin('ScriptExtHtmlWebpackPlugin')
+                .after('html')
+                .use('script-ext-html-webpack-plugin', [
                     {
                         inline: /runtime\..*\.js$/,
                     },
                 ])
-                .end();
+                .end()
             config.optimization.splitChunks({
-                chunks: "all",
+                chunks: 'all',
                 cacheGroups: {
                     libs: {
-                        name: "chunk-libs",
+                        name: 'chunk-libs',
                         test: /[\\/]node_modules[\\/]/,
                         priority: 10,
-                        chunks: "initial",
+                        chunks: 'initial',
                     },
                     // elementUI: {
                     //     name: "chunk-elementUI",
@@ -118,15 +117,15 @@ module.exports = {
                     //     test: /[\\/]node_modules[\\/]_?element-ui(.*)/,
                     // },
                     commons: {
-                        name: "chunk-commons",
-                        test: resolve("src/components"),
+                        name: 'chunk-commons',
+                        test: resolve('src/components'),
                         minChunks: 3,
                         priority: 5,
                         reuseExistingChunk: true,
                     },
                 },
-            });
-            config.optimization.runtimeChunk("single");
-        });
+            })
+            config.optimization.runtimeChunk('single')
+        })
     },
-};
+}

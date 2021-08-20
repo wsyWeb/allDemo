@@ -7,8 +7,8 @@ import router from './router'
 import './common/common.less'
 import store from './store'
 
-createApp(App)
-    .use(store)
-    .use(Antd)
-    .use(router)
-    .mount('#app')
+const app = createApp(App)
+app.use(store)
+app.use(Antd)
+app.use(router)
+app.mount('#app')
