@@ -1,18 +1,33 @@
 <template>
-    <a-input v-model:value="newVal" @keyup.enter="$emit('addItem')" @input="$emit('update:value', $event.target.value)"></a-input>
+    <div>
+        {{ key }}
+        <a-input :value="modelValue" @keyup="handleKeyUp($event)" @input="$emit('update:value', $event.target.value)"></a-input>
+    </div>
 </template>
 
 <script>
 export default {
-    props: ['modelValue'],
+    props: {
+        modelValue: {
+            type: String,
+            default: '',
+        },
+        key: String,
+    },
     data() {
-        return {
-            newVal: this.modelValue,
-        }
+        return {}
     },
     created() {},
     mounted() {},
-    methods: {},
+    methods: {
+        handleKeyUp(e) {
+            if (e.code === 'Enter') {
+                this.$emit('addItem')
+            } else if (e.code === 'Delete') {
+                this.$emit('removeItem')
+            }
+        },
+    },
 }
 </script>
 

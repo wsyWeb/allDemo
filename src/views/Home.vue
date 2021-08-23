@@ -31,14 +31,18 @@
         <div id="blog-post-demo" class="demo">
             {{ items }}
             <blog-post
-                v-for="item of items"
-                :key="item"
+                v-for="(item, idx) of items"
+                :key="idx"
                 v-model="item.message"
+                @remove-item="items.splice(idx, 1)"
                 @add-item="items.push({ message: '' })"
                 @update:value="item.message = $event"
             ></blog-post>
         </div>
-        <header></header>
+        <div>-- 插槽 ---</div>
+        <div>
+            <child2>我是父页面哦</child2>
+        </div>
     </div>
 </template>
 
@@ -47,11 +51,13 @@
 // import HelloWorld from '@/components/HelloWorld.vue'
 import { apiTestApi } from 'api/modules/dashboard'
 import BlogPost from 'components/test/child1'
+import child2 from 'components/test/child2'
 
 export default {
     name: 'Home',
     components: {
         BlogPost,
+        child2,
     },
     data() {
         return {
