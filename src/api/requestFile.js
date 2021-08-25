@@ -55,7 +55,7 @@ instance.interceptors.response.use(
                     window.$vue.$notification.error({ message: '服务器繁忙！' })
             }
 
-            return Promise.reject(error.response.status)
+            return Promise.reject(error.response && error.response.status)
         }
     }
 )

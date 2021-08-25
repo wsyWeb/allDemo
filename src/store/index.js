@@ -7,7 +7,7 @@ export default createStore({
     state: {
         requestPendingNum: 0,
         loading: false,
-        selectedKeys: [],
+        selectedKeys: ['1'],
         openKeys: [],
         user: {
             name: 'wsy',
@@ -20,8 +20,9 @@ export default createStore({
             if (state.loading === false) state.loading = true
         },
         hiddenLoading: function(state) {
-            state.requestPendingNum--
-            if (state.requestPendingNum === 0) state.loading = false
+          state.requestPendingNum--
+          state.loading = false
+            // if (state.requestPendingNum === 0) state.loading = false
         },
         SET_SELECTED_KEYS: function(state, selectedKeys) {
             state.selectedKeys = selectedKeys
@@ -45,7 +46,7 @@ export default createStore({
     //     }),
     // ],
 
-    //持久化存储数据
+    //持久化存储数据 , 存在cookie中
     plugins: [
         persistedState({
             storage: {

@@ -89,7 +89,6 @@ export default {
             // 选中菜单后跳转
             oneLevelRoutes.forEach((item) => {
                 if (selectedKeys.indexOf(item.id) !== -1 && window.location.pathname !== item.fullPath) {
-                    console.log('qqqq')
                     this.$router.replace(item.fullPath)
                 }
             })

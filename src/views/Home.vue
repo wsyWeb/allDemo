@@ -43,13 +43,15 @@
         <div>
             <child2>我是父页面哦</child2>
         </div>
+        <div>---- svg-icon实例 -----</div>
+        <svg-icon icon-class="dashboard-sys-healthy"></svg-icon>
     </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
-import { apiTestApi } from 'api/modules/dashboard'
+// import { apiTestApi } from 'api/modules/dashboard'
 import BlogPost from 'components/test/child1'
 import child2 from 'components/test/child2'
 
@@ -73,7 +75,7 @@ export default {
         }
     },
     created() {
-        apiTestApi({ token: '1' }).then(() => {})
+        // apiTestApi({ token: '1' }).then(() => {})
         // HelloWorld
     },
     methods: {

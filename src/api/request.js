@@ -38,13 +38,13 @@ instance.interceptors.response.use(
             return Promise.reject(result)
         }
     },
-    (error) => {
+  (error) => {
         store.commit('hiddenLoading')
 
         let time = new Date().getTime()
         if (time - LAST_TIME > 500) {
             LAST_TIME = time
-            switch (error.response.status) {
+            switch (error.response && error.response.status) {
                 case 401:
                     notification.error({ message: '用户未认证' })
                     // window.$vue.$notification.error({message: "登录超时！"});
@@ -54,7 +54,7 @@ instance.interceptors.response.use(
                 default:
                     notification.error({ message: '服务器繁忙！' })
             }
-
+            store.commit('hiddenLoading')
             return Promise.reject(error.response.status)
         }
     }

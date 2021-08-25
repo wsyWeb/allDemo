@@ -1,19 +1,19 @@
 import { createApp } from 'vue'
+import { camelCase, upperFirst } from 'lodash'
 import Antd from 'ant-design-vue'
 import App from './App'
-import 'ant-design-vue/dist/antd.css'
-import router from './router'
-import './common/common.less'
 import store from './store'
-import { camelCase, upperFirst } from 'lodash'
+import router from './router'
+import 'ant-design-vue/dist/antd.css'
+import './common/common.less'
+import './icons'
 
 const app = createApp(App)
 app.use(store)
 app.use(Antd)
 app.use(router)
 app.mount('#app')
-
-//创建全局组件
+//引入全局组件
 const requireComponent = require.context(
     // 其组件目录的相对路径
     './components/global',
@@ -22,13 +22,11 @@ const requireComponent = require.context(
     // 匹配基础组件文件名的正则表达式
     /[A-Z]\w+\.(vue|js)$/
 )
-console.log(requireComponent.keys(), 'requireComponent')
 
 requireComponent.keys().forEach((fileName) => {
     // 获取组件配置
     const componentConfig = requireComponent(fileName)
-
-    // 获取组件的 PascalCase 命名
+    // 获取组件的 upperFirst（将首字母转为大写）camelCase（去掉字母中间的-） 命名
     const componentName = upperFirst(
         camelCase(
             // 获取和目录深度无关的文件名
@@ -38,7 +36,6 @@ requireComponent.keys().forEach((fileName) => {
                 .replace(/\.\w+$/, '')
         )
     )
-
     // 全局注册组件
     app.component(
         componentName,

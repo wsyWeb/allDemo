@@ -36,7 +36,7 @@ const routes = [
                         label: '日历周期设置',
                         path: 'calendar',
                         id: '3-1',
-                        component: () => import(/* webpackChunkName: "calendar" */ '../views/Calendar.vue'),
+                        component: () => import(/* webpackChunkName: "calendar" */ '../views/CalendarDemo.vue'),
                     },
                 ],
             },
