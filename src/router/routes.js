@@ -39,7 +39,13 @@ const routes = [
                         component: () => import(/* webpackChunkName: "calendar" */ '../views/CalendarDemo.vue'),
                     },
                 ],
-            },
+          },
+          {
+            label: '富文本编辑器',
+            path: '/editor-tinymce',
+            id: '4',
+            component: () => import(/* webpackChunkName: "calendar" */ '../views/JEditor.vue'),
+          }
             // {
             //     path: '/openlaers',
             //     name: 'openlaers',

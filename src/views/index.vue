@@ -4,7 +4,7 @@
         <div class="flex" style="height: 100%;">
             <Menu />
             <div class="flex-1" style="overflow: auto;">
-                <a-spin :spinning="loading">
+                <a-spin :spinning="false">
                     <div id="platform" class="p-sm platform" style="padding-top: 40px;height: 100%;">
                         <router-view></router-view>
                     </div>
