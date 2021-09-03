@@ -24,6 +24,18 @@ const routes = [
                         id: '2-1',
                         component: () => import(/* webpackChunkName: "echart" */ '../views/EchartMultiaxial.vue'),
                     },
+                    {
+                        label: '地图',
+                        path: 'map',
+                        id: '2-2',
+                        component: () => import(/* webpackChunkName: "echart" */ '../views/echart/EchartGis.vue'),
+                    },
+                    {
+                        label: '热力图',
+                        path: 'hot-map',
+                        id: '2-3',
+                        component: () => import(/* webpackChunkName: "echart" */ '../views/echart/EchartHot.vue'),
+                    },
                 ],
             },
             {
@@ -39,13 +51,13 @@ const routes = [
                         component: () => import(/* webpackChunkName: "calendar" */ '../views/CalendarDemo.vue'),
                     },
                 ],
-          },
-          {
-            label: '富文本编辑器',
-            path: '/editor-tinymce',
-            id: '4',
-            component: () => import(/* webpackChunkName: "calendar" */ '../views/JEditor.vue'),
-          }
+            },
+            {
+                label: '富文本编辑器',
+                path: '/editor-tinymce',
+                id: '4',
+                component: () => import(/* webpackChunkName: "calendar" */ '../views/JEditor.vue'),
+            },
             // {
             //     path: '/openlaers',
             //     name: 'openlaers',
