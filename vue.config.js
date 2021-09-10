@@ -10,7 +10,7 @@ module.exports = {
     publicPath: '/',
     productionSourceMap: false,
     devServer: {
-        port: 4000,
+        port: 9999,
         open: false,
         overlay: {
             warnings: false,

@@ -53,16 +53,23 @@ const routes = [
                 ],
             },
             {
-                label: '富文本编辑器',
+                label: 'tinymce',
                 path: '/editor-tinymce',
                 id: '4',
                 component: () => import(/* webpackChunkName: "calendar" */ '../views/JEditor.vue'),
             },
+            {
+                label: 'ol',
+                path: '/ol',
+                id: '5',
+                component: () => import(/* webpackChunkName: "ol" */ '../views/Ol.vue'),
+            },
             // {
-            //     path: '/openlaers',
-            //     name: 'openlaers',
-            //     id: '2',
-            // }
+            //     label: 'ol',
+            //     path: '/ol-demo',
+            //     id: '7',
+            //     component: () => import(/* webpackChunkName: "calendar" */ '../views/Wei.vue'),
+            // },
         ],
     },
 ]
