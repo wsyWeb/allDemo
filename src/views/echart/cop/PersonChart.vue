@@ -2,11 +2,13 @@
     <div class="personChart heightAll widthAll">
         <div class=" flex-between" style="height: 40%">
             <div id="pieChartMain" class="heightAll"></div>
-            <a-row class="text-center completionRate ">
-                <img src="~@/assets/images/operation/chart.png" style="width: 70%" alt="" />
-                <div class="numWrap">
-                    <div class="num">{{ peopleStateData.avgTaskRate }}</div>
-                    <div class="tip">平均完成率</div>
+            <a-row class="text-center completionRate flex-center">
+                <div style="width: 70%; position: relative">
+                    <img src="~@/assets/images/operation/chart.png" style="width:100%" alt="" />
+                    <div class="numWrap">
+                        <div class="num">{{ peopleStateData.avgTaskRate || '100%' }}</div>
+                        <div class="tip">平均完成率</div>
+                    </div>
                 </div>
             </a-row>
         </div>
@@ -78,7 +80,7 @@ export default {
                     {
                         name: '访问来源',
                         type: 'pie',
-                        radius: ['35%', '55%'],
+                        radius: ['30%', '50%'],
                         // startAngle: 270,
                         hoverAnimation: false,
                         data: [
@@ -94,6 +96,8 @@ export default {
                             lineStyle: {
                                 color: '#99CCFF',
                             },
+                            length: 10,
+                            length2: this.peopleStateData.noTaskPeopleNum === this.peopleStateData.taskPeopleNum ? 0 : 5,
                         },
                         itemStyle: {
                             normal: {
@@ -141,8 +145,17 @@ export default {
         initBarChart() {
             if (barChart) barChart.clear()
             const chartDom = document.getElementById('barChartMain'),
-                data2 = [150, 212, 201, 154],
-                data1 = [820, 832, 301, 934]
+                dataList = [
+                    { name: '张三', stay: 2, finish: 5 },
+                    { name: '李四', stay: 12, finish: 8 },
+                    { name: '小华', stay: 6, finish: 1 },
+                    { name: '压缩', stay: 2, finish: 15 },
+                ]
+            const allNum = []
+            for (let i in dataList) {
+                const item = dataList[i]
+                allNum.push(item.stay + item.finish)
+            }
             barChart = echarts.init(chartDom)
 
             const option = {
@@ -162,14 +175,18 @@ export default {
                     },
                 },
                 grid: {
-                    left: '0',
-                    right: '10%',
+                    left: '3%',
+                    right: '8%',
                     bottom: '15%',
                     containLabel: true,
                 },
                 xAxis: {
                     type: 'value',
-                    name: '次',
+                    name: '(次)',
+                    // nameTextStyle: {
+                    //     verticalAlign: 'bottom',
+                    //     align: 'right',
+                    // },
                     axisTick: {
                         show: false,
                     },
@@ -177,6 +194,7 @@ export default {
                         show: false,
                     },
                     axisLine: {
+                        show: true,
                         lineStyle: {
                             color: '#99ccff',
                         },
@@ -184,7 +202,7 @@ export default {
                 },
                 yAxis: {
                     type: 'category',
-                    data: ['检修员1', '检修员2', '检修员3', '检修员4'],
+                    data: dataList.map((i) => i.name),
                     axisTick: {
                         show: false,
                     },
@@ -195,33 +213,6 @@ export default {
                     },
                 },
                 series: [
-                    {
-                        name: '待执行检修次数',
-                        type: 'bar',
-                        barWidth: 16,
-                        stack: '总量',
-                        showBackground: true,
-                        backgroundStyle: {
-                            color: 'rgba(0,63,119,0)',
-                        },
-                        itemStyle: {
-                            normal: {
-                                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
-                                    {
-                                        offset: 0,
-                                        color: '#89F7FE', //渐变1
-                                    },
-                                    {
-                                        offset: 1,
-                                        // color: '#4693EC',//渐变2
-                                        color: '#66A6FF', //渐变2
-                                    },
-                                ]),
-                            },
-                        },
-                        data: data1,
-                        z: 1,
-                    },
                     {
                         name: '已完成检修次数',
                         type: 'bar',
@@ -247,8 +238,36 @@ export default {
                                 ]),
                             },
                         },
-                        data: data2,
+                        data: dataList.map((i) => i.finish),
                         z: 0,
+                    },
+                    {
+                        name: '待执行检修次数',
+                        type: 'bar',
+                        barWidth: 16,
+                        stack: '总量',
+                        showBackground: true,
+                        backgroundStyle: {
+                            color: 'rgba(0,63,119,0)',
+                        },
+                        itemStyle: {
+                            normal: {
+                                color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
+                                    {
+                                        offset: 0,
+                                        color: '#89F7FE', //渐变1
+                                    },
+                                    {
+                                        offset: 1,
+                                        // color: '#4693EC',//渐变2
+                                        color: '#66A6FF', //渐变2
+                                    },
+                                ]),
+                            },
+                        },
+
+                        data: dataList.map((i) => i.stay),
+                        z: 1,
                     },
                     {
                         type: 'pictorialBar',
@@ -261,10 +280,11 @@ export default {
                         symbolRepeat: 'fixed',
                         symbolMargin: 4,
                         symbol: 'rect',
+                        symbolClip: true, //裁剪超出部分
                         symbolSize: [5, 16],
                         symbolPosition: 'end',
                         symbolOffset: [8, 0],
-                        data: [1, 1, 1, 1],
+                        data: allNum,
                         z: 2,
                         zlevel: 0,
                     },
@@ -285,10 +305,10 @@ export default {
 }
 .completionRate {
     width: 40%;
-    padding-top: 15%;
     .numWrap {
-        position: relative;
-        top: -20px;
+        position: absolute;
+        bottom: -28px;
+        width: 100%;
     }
     .num {
         color: #00ffff;
@@ -296,6 +316,8 @@ export default {
     }
     .tip {
         color: #99ccff;
+        position: relative;
+        top: -5px;
     }
 }
 </style>

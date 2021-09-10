@@ -2,6 +2,14 @@
     <!-- padding-bottom: 20px;   -->
     <div style="margin-top: 10px; ">
         <a-table
+            :pagination="false"
+            :columns="my_columns"
+            :data-source="data"
+            :bordered="false"
+            :rowKey="rowKey || 'id'"
+            @expandedRowsChange="expandedRowsChange"
+        />
+        <!-- <a-table
             v-if="hasSelect"
             :pagination="false"
             :columns="my_columns"
@@ -41,7 +49,7 @@
                 @showSizeChange="onShowSizeChange"
                 @change="onChangePage"
             />
-        </div>
+        </div> -->
     </div>
 </template>
 <script>
