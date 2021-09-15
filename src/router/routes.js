@@ -62,7 +62,21 @@ const routes = [
                 label: 'ol',
                 path: '/ol',
                 id: '5',
-                component: () => import(/* webpackChunkName: "ol" */ '../views/Ol.vue'),
+                redirect: 'overlay',
+                children: [
+                    {
+                        label: 'overlay',
+                        path: 'overlay',
+                        id: '5-1',
+                        component: () => import(/* webpackChunkName: "ol" */ '../views/ol/index.vue'),
+                    },
+                    {
+                        label: '地图描边',
+                        path: 'strokeLine',
+                        id: '5-2',
+                        component: () => import(/* webpackChunkName: "ol" */ '../views/ol/HotMap.vue'),
+                    },
+                ],
             },
             // {
             //     label: 'ol',

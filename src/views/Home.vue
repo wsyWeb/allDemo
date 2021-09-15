@@ -41,7 +41,8 @@
         </div>
         <div>-- 插槽 ---</div>
         <div>
-            <child2>我是父页面哦</child2>
+            startVisible: {{ startVisible }}
+            <child2 @update:startVisible="(v) => (startVisible = v)">我是父页面哦</child2>
         </div>
         <div>---- svg-icon实例 -----</div>
         <svg-icon icon-class="dashboard-sys-healthy"></svg-icon>
@@ -63,6 +64,7 @@ export default {
     },
     data() {
         return {
+            startVisible: false,
             checkedNames: [],
             isActive: true,
             hasError: false,
