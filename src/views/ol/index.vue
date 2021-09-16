@@ -235,11 +235,12 @@ export default {
     },
     watch: {
         checkedmaker(v) {
-            if (!v) {
-                this.map.removeLayer(this.layerPoint)
-            } else {
-                this.addMaker()
-            }
+            // if (!v) {
+            //     this.map.removeLayer(this.layerPoint)
+            // } else {
+            //     this.addMaker()
+            // }
+            this.layerPoint.setVisible(v) //是否显示标记物
         },
     },
 }

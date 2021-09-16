@@ -76,6 +76,12 @@ const routes = [
                         id: '5-2',
                         component: () => import(/* webpackChunkName: "ol" */ '../views/ol/HotMap.vue'),
                     },
+                    {
+                        label: '切换地图类型',
+                        path: 'chnageMap',
+                        id: '5-3',
+                        component: () => import(/* webpackChunkName: "ol" */ '../views/ol/ChangeOlMap.vue'),
+                    },
                 ],
             },
             // {
